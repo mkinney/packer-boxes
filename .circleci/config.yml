@@ -19,6 +19,4 @@ jobs:
 workflows:
   all:
     jobs:
-      - run: echo hello
       - build-and-test
-      - run: echo bye
