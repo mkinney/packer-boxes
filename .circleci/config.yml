@@ -3,17 +3,15 @@ version: 2.1
 jobs:
 
   build-and-test:
-    macos:
-      xcode: 11.4.0
-    environment:
-      HOMEBREW_NO_AUTO_UPDATE: 1
+    machine:
+      image: ubuntu-1604:201903-01
     steps:
       - checkout
-      - run: brew install packer
+      - run: export VER="1.5.1"; wget https://releases.hashicorp.com/packer/${VER}/packer_${VER}_linux_amd64.zip ; unzip packer_${VER}_linux_amd64.zip ; sudo mv packer /usr/local/bin
       - run: packer --version
-      - run: brew cask install vagrant
+      - run: export VER="2.2.7"; wget https://releases.hashicorp.com/vagrant/${VER}/vagrant_${VER}_linux_amd64.zip ; unzip vagrant_${VER}_linux_amd64.zip ; sudo mv vagrant /usr/local/bin
       - run: vagrant --version
-      - run: brew cask install virtualbox
+      - run: wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add - ; wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add - ; sudo add-apt-repository "deb [arch=amd64] http://download.virtualbox.org/virtualbox/debian $(lsb_release -cs) contrib" ; sudo apt update ; sudo apt install virtualbox-6.1
       - run: VBoxManage --version
 
 workflows:
